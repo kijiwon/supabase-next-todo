@@ -3,7 +3,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import { Database } from "@/database.types";
 
 export const createSupabaseBrowserClient = () => {
-  createBrowserClient<Database>(
+  return createBrowserClient<Database>(
     // supabase url과 supabase anon key를 전달
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
