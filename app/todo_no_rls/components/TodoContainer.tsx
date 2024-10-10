@@ -2,6 +2,8 @@
 
 import {
   createTodos,
+  deleteTodosHard,
+  deleteTodosSoft,
   getTodos,
   getTodosById,
   getTodosBySearch,
@@ -15,7 +17,8 @@ const TodoContainer = () => {
     // getTodosById(4);
     // getTodosBySearch("공부");
     // createTodos("createTodos");
-    updateTodos(5, "todos 업데이트!");
+    // updateTodos(5, "todos 업데이트!");
+    deleteTodosHard(5);
   }, []);
 
   return <div>TodoContainer</div>;

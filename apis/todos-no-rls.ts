@@ -77,3 +77,34 @@ export const updateTodos = async (id: number, content: string) => {
 
   return result.data;
 };
+
+// todoList 삭제하기
+// soft delete
+export const deleteTodosSoft = async (id: number) => {
+  const supabase = createSupabaseBrowserClient();
+  const result = await supabase
+    .from("todos_no_rls")
+    .update({
+      deleted_at: new Date().toISOString(),
+      // 삭제 -> 업데이트(선택사항)
+      updated_at: new Date().toISOString(),
+    })
+    // id가 동일한 데이터를 업데이트
+    .eq("id", id)
+    // 가져오기
+    .select();
+
+  return result.data;
+};
+
+// hard delete
+export const deleteTodosHard = async (id: number) => {
+  const supabase = createSupabaseBrowserClient();
+  const result = await supabase
+    .from("todos_no_rls")
+    .delete()
+    // id가 동일한 데이터를 삭제
+    .eq("id", id);
+
+  return result.data;
+};
