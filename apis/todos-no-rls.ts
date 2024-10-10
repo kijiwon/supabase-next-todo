@@ -46,3 +46,14 @@ export const getTodosBySearch = async (terms: string) => {
 
   return result.data;
 };
+
+// todoList 생성하기
+export const createTodos = async (content: string) => {
+  const supabase = createSupabaseBrowserClient();
+  const result = await supabase.from("todos_no_rls").insert({
+    content,
+  })
+  .select();
+
+  return result.data;
+};
