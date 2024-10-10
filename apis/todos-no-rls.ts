@@ -40,7 +40,9 @@ export const getTodosBySearch = async (terms: string) => {
     // 검색어가 포함된 content 가져오기
     // ilike -> terms의 대소문자 구분하지 않음
     .ilike("content", `%${terms}%`)
-    .order("id", { ascending: false });
+    .order("id", { ascending: false })
+    // 데이터 수 제한
+    .limit(500);
 
   return result.data;
 };
