@@ -50,10 +50,30 @@ export const getTodosBySearch = async (terms: string) => {
 // todoList 생성하기
 export const createTodos = async (content: string) => {
   const supabase = createSupabaseBrowserClient();
-  const result = await supabase.from("todos_no_rls").insert({
-    content,
-  })
-  .select();
+  const result = await supabase
+    .from("todos_no_rls")
+    .insert({
+      content,
+    })
+    .select();
+
+  return result.data;
+};
+
+// todoList 업데이트하기
+export const updateTodos = async (id: number, content: string) => {
+  const supabase = createSupabaseBrowserClient();
+  const result = await supabase
+    .from("todos_no_rls")
+    .update({
+      content,
+      // updated_at 필드도 업데이트
+      updated_at: new Date().toISOString(),
+    })
+    // id가 동일한 데이터를 업데이트
+    .eq("id", id)
+    // 가져오기
+    .select();
 
   return result.data;
 };
