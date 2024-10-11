@@ -1,8 +1,14 @@
 import { IoShareSocialOutline } from "react-icons/io5";
 import { useCopyToClipboard } from "usehooks-ts";
 import { IoSearchOutline } from "react-icons/io5";
+import TodoListItem from "./TodoListItem";
 
-const TodoList = ({ sharedUserFulName = "", ownerUserId = "" }) => {
+const TodoList = ({
+  sharedUserFulName = "",
+  ownerUserId = "",
+  loading = false,
+  todoListData = [],
+}) => {
   const [copiedText, copy] = useCopyToClipboard();
 
   const handleCopy = () => {
@@ -46,6 +52,23 @@ const TodoList = ({ sharedUserFulName = "", ownerUserId = "" }) => {
           </div>
         </article>
         <div className="h-[2px] my-10 bg-black"></div>
+        {todoListData?.length >= 1 ? (
+          <ul className=" flex flex-col gap-6">
+            {/* todoListData가 존재하지 않으면 빈 배열을 기본값으로 넘김 */}
+            {(todoListData ?? []).map((todo) => {
+              return (
+                <TodoListItem
+                  key={todo?.id}
+                  todo={todo}
+                  onUpdate={() => {}}
+                  onDelete={() => {}}
+                />
+              );
+            })}
+          </ul>
+        ) : (
+          <div>{loading ? "loading..." : "Empty!"}</div>
+        )}
       </div>
     </div>
   );
