@@ -1,13 +1,16 @@
 "use client";
 
 import useTodosController from "../hooks/useTodosController";
+import TodoList from "@/components/ui/TodoList";
 
 const TodoContainer = () => {
   const { loading, todos } = useTodosController();
-  console.log(">>loading", loading);
-  console.log(">>todos", todos);
 
-  return <div>TodoContainer</div>;
+  return (
+    <div>
+      <TodoList sharedUserFulName="test user" ownerUserId="123" />
+    </div>
+  );
 };
 
 export default TodoContainer;
