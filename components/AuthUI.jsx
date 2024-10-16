@@ -1,11 +1,16 @@
 "use client";
 
+import useHydrate from "@/hooks/useHydrate";
 import { createSupabaseBrowserClient } from "@/lib/client/supabse";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
 const AuthUI = () => {
   const supabase = createSupabaseBrowserClient();
+  const isMount = useHydrate();
+
+  if (!isMount) return null;
+
   return (
     <section className=" w-full">
       <div className=" max-w-[500px] mx-auto">
