@@ -22,6 +22,25 @@ const AuthUI = () => {
     window.location.reload();
   };
 
+  // ui를 사용하지 않고 로그인 동작하기
+  const handleGoogleLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
+      },
+    });
+  };
+
+  const handleGithubLogin = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      options: {
+        redirectTo: process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO,
+      },
+    });
+  };
+
   useEffect(() => {
     getUserInfo();
   }, []);
@@ -39,7 +58,7 @@ const AuthUI = () => {
         )}
       </>
       <div className=" max-w-[500px] mx-auto">
-        <Auth
+        {/* <Auth
           redirectTo={process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO}
           supabaseClient={supabase}
           appearance={{
@@ -47,7 +66,11 @@ const AuthUI = () => {
           }}
           onlyThirdPartyProviders // -> 이메일 로그인은 사용하지 않음
           providers={["google", "github"]}
-        />
+        /> */}
+        <div>
+          <button onClick={handleGoogleLogin}>Google Login</button>
+          <button onClick={handleGithubLogin}>Github Login</button>
+        </div>
       </div>
     </section>
   );
