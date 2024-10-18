@@ -2,10 +2,11 @@
 
 import { createServerSideClient } from "@/lib/supabase";
 
-export const getTodoAction = async () => {
+// todoList 가져오기
+export const getTodos = async () => {
   const supabase = await createServerSideClient();
   const result = await supabase
-    .from("todos_no_rls")
+    .from("todos_with_rls")
     .select("*")
     .is("deleted_at", null)
     // 내림차순으로 정렬
@@ -13,6 +14,97 @@ export const getTodoAction = async () => {
       ascending: false,
     });
 
-  console.log("todo GET API income", result);
+  return result.data;
+};
+
+// todoList 가져오기 + by Id
+export const getTodosById = async (id: number) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .select("*")
+    .is("deleted_at", null)
+    // 동일한 id만 가져오기
+    .eq("id", id);
+
+  return result.data;
+};
+
+// todoList 가져오기 + search
+export const getTodosBySearch = async (terms: string) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .select("*")
+    .is("deleted_at", null)
+    // 검색어가 포함된 content 가져오기
+    // ilike -> terms의 대소문자 구분하지 않음
+    .ilike("content", `%${terms}%`)
+    .order("id", { ascending: false })
+    // 데이터 수 제한
+    .limit(500);
+
+  return result.data;
+};
+
+// todoList 생성하기
+export const createTodos = async (content: string) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .insert({
+      content,
+    })
+    .select();
+
+  return result.data;
+};
+
+// todoList 업데이트하기
+export const updateTodos = async (id: number, content: string) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .update({
+      content,
+      // updated_at 필드도 업데이트
+      updated_at: new Date().toISOString(),
+    })
+    // id가 동일한 데이터를 업데이트
+    .eq("id", id)
+    // 가져오기
+    .select();
+
+  return result.data;
+};
+
+// todoList 삭제하기
+// soft delete
+export const deleteTodosSoft = async (id: number) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .update({
+      deleted_at: new Date().toISOString(),
+      // 삭제 -> 업데이트(선택사항)
+      updated_at: new Date().toISOString(),
+    })
+    // id가 동일한 데이터를 업데이트
+    .eq("id", id)
+    // 가져오기
+    .select();
+
+  return result.data;
+};
+
+// hard delete
+export const deleteTodosHard = async (id: number) => {
+  const supabase = await createServerSideClient();
+  const result = await supabase
+    .from("todos_with_rls")
+    .delete()
+    // id가 동일한 데이터를 삭제
+    .eq("id", id);
+
   return result.data;
 };
