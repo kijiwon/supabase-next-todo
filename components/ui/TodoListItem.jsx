@@ -46,7 +46,10 @@ const TodoListItem = ({ todo, onUpdate, onDelete }) => {
           className=" w-fit hidden group-hover:flex self-end gap-[8px] "
         >
           {isEdit ? (
-            <div className=" h-[45px] w-[45px] flex justify-center items-center bg-[#7ebb95] border border-black rounded-2xl cursor-pointer ">
+            <div
+              onClick={onFinishEdit}
+              className=" h-[45px] w-[45px] flex justify-center items-center bg-[#7ebb95] border border-black rounded-2xl cursor-pointer "
+            >
               <CiCircleCheck size={30} />
             </div>
           ) : (
