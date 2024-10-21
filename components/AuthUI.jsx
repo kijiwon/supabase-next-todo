@@ -4,17 +4,17 @@ import useHydrate from "@/hooks/useHydrate";
 import { createSupabaseBrowserClient } from "@/lib/client/supabse";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const AuthUI = () => {
   const [user, setUser] = useState();
   const supabase = createSupabaseBrowserClient();
   const isMount = useHydrate();
 
-  const getUserInfo = async () => {
+  const getUserInfo = useCallback(async () => {
     const result = await supabase.auth.getUser();
     if (result?.data?.user) setUser(result?.data?.user);
-  };
+  }, [supabase]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -43,7 +43,7 @@ const AuthUI = () => {
 
   useEffect(() => {
     getUserInfo();
-  }, []);
+  }, [getUserInfo]);
 
   if (!isMount) return null;
 
@@ -58,7 +58,7 @@ const AuthUI = () => {
         )}
       </>
       <div className=" max-w-[500px] mx-auto">
-        {/* <Auth
+        <Auth
           redirectTo={process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO}
           supabaseClient={supabase}
           appearance={{
@@ -66,11 +66,11 @@ const AuthUI = () => {
           }}
           onlyThirdPartyProviders // -> 이메일 로그인은 사용하지 않음
           providers={["google", "github"]}
-        /> */}
-        <div>
+        />
+        {/* <div>
           <button onClick={handleGoogleLogin}>Google Login</button>
           <button onClick={handleGithubLogin}>Github Login</button>
-        </div>
+        </div> */}
       </div>
     </section>
   );
