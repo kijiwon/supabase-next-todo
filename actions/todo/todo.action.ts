@@ -38,7 +38,10 @@ export const getTodosByUserId = async (userId: string) => {
     .select("*")
     .is("deleted_at", null)
     // 동일한 id만 가져오기
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("id", {
+      ascending: false,
+    });
 
   return result.data;
 };
