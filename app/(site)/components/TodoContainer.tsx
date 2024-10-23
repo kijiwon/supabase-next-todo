@@ -15,12 +15,11 @@ const TodoContainer = ({ ownerUserId }: TodoContainerProps) => {
     onUpdateTodos,
     onSearchTodos,
     onDeleteTodos,
-  } = useTodosController();
+  } = useTodosController(ownerUserId);
 
   return (
     <div>
       <TodoList
-        sharedUserFulName="test user"
         ownerUserId={ownerUserId}
         loading={loading}
         todoListData={todos}
