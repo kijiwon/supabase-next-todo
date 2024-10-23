@@ -23,7 +23,7 @@ const TodoList = ({
     setUserSearchInput("");
   };
   const handleCopy = () => {
-    const shareLink = `${"todoList 공유할 링크"}/share/${ownerUserId}`;
+    const shareLink = `${process.env.NEXT_PUBLIC_AUTH_REDIRECT_TO_HOME}/share/${ownerUserId}`;
     copy(shareLink)
       .then(() => {
         window.alert(`공유 링크 ${shareLink}`);
