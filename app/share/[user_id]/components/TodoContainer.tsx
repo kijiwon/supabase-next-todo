@@ -19,7 +19,7 @@ const TodoContainer = ({
     onUpdateTodos,
     onSearchTodos,
     onDeleteTodos,
-  } = useTodosController();
+  } = useTodosController(ownerUserId);
 
   return (
     <div>
