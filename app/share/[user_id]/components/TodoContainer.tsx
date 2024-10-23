@@ -28,7 +28,7 @@ const TodoContainer = ({
         ownerUserId={ownerUserId}
         loading={loading}
         todoListData={todos}
-        isReadOnly={false}
+        isReadOnly
         onUpdate={onUpdateTodos}
         onCreate={onCreateEmptyTodos}
         onDelete={onDeleteTodos}

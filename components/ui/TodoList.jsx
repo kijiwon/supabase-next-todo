@@ -3,6 +3,7 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { IoSearchOutline } from "react-icons/io5";
 import TodoListItem from "./TodoListItem";
 import { useState } from "react";
+import TodoListItemReadonly from "./TodoListItemReadOnly";
 
 const TodoList = ({
   sharedUserFulName = "",
@@ -83,6 +84,8 @@ const TodoList = ({
           <ul className=" flex flex-col gap-6">
             {/* todoListData가 존재하지 않으면 빈 배열을 기본값으로 넘김 */}
             {(todoListData ?? []).map((todo) => {
+              if (isReadOnly)
+                return <TodoListItemReadonly key={todo?.id} todo={todo} />;
               return (
                 <TodoListItem
                   key={todo?.id}
